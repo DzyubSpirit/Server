@@ -51,8 +51,10 @@
             },
           });
           isUploading = true;
-          api.files.uploadFile({ inp: out, timeout: 0 }, (_, downloadCode) => {
-            connection.send(JSON.stringify({ code: downloadCode }));
+
+          const { uploadFile } = application.files;
+          uploadFile({ inp: out, timeout: 0 }, (_, { storageName }) => {
+            connection.send(JSON.stringify({ code: storageName }));
           });
         } else if (data.uploadEnd) {
           if (!readEnded) {
